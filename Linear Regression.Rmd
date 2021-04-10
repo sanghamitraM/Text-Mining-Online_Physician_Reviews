@@ -1,0 +1,273 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+
+main_data_HG = read.csv("/Users/sujaikarunakaran/Desktop/Assignments/Spring 2020/Ranga/Final Project/Final/Healthgrades/Healthgrades_final.csv")
+
+main_data_RM = read.csv("/Users/sujaikarunakaran/Desktop/Assignments/Spring 2020/Ranga/Final Project/Final/RateMds/Ratemds_final.csv")
+
+
+str(main_data_RM)
+
+data_rating_RM = subset(main_data_RM, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "Average_Positive_Sentiment"))
+
+data_rating_HG = subset(main_data_HG, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "avg_pos_sent_score"))
+
+main_data_HG$Experience = as.factor(main_data_HG$Experience)
+levels(main_data_HG$Experience) = list("below 10" = c(2:10), "11 - 20" = c(11:20), "21 - 30" = c(21:30), "31 - 40" = c(31:40), "41 & above" = c(40:61))
+
+main_data_HG$Age = as.factor(main_data_HG$Age)
+levels(main_data_HG$Age) = list("below 40" = c(33:40), "41 - 50" = c(41:50), "51 - 60" = c(51:60), "60 & above" = c(61:95))
+
+str(main_data_HG)
+
+str(data_star)
+
+model_fit = lm(data_star$Average_Negative_Sentiment~., data = data_star)
+
+summary(model_fit)
+
+plot(main_data_RM$Experience, main_data_RM$Doctor_ratings)
+
+corre_data_rm = subset(main_data_RM, select = c("No..of.Words", "No..of.Reviews", "Words_per_review", "Age", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg"))
+
+corre_data_hg = subset(main_data_HG, select = c("Number_of_Words", "Number_of_Reviews", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg"))
+
+res <- cor(corre_data_hg)
+round(res, 2)
+library(corrplot)
+corrplot(res, method="circle", type="upper", order = "hclust")
+
+summary(main_data_RM$Experience)
+
+main_data_RM$Experience = as.factor(main_data_RM$Experience)
+levels(main_data_RM$Experience) = list("11 - 20" = c(11:20), "21 - 30" = c(21:30), "31 - 40" = c(31:40), "41 & above" = c(40:71))
+
+```
+
+
+```{r}
+
+data_ws_RM = subset(main_data_RM, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "Whole_Sentiment"))
+
+data_ws_HG = subset(main_data_HG, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "Whole_Sentiment"))
+
+model_ws_rm = lm(data_ws_RM$Whole_Sentiment~., data = data_ws_RM)
+
+summary(model_ws_rm)
+
+model_ws_hg = lm(data_ws_HG$Whole_Sentiment~., data = data_ws_HG)
+
+summary(model_ws_hg)
+
+
+```
+
+
+```{r}
+#### Linear Rigression for with Average Negative Sentiment Score as dependent variable
+
+model_sr_rm = lm(data_rating_RM$Average_Positive_Sentiment~., data = data_rating_RM)
+
+shapiro.test(data_rating_RM$Average_Positive_Sentiment)
+
+summary(model_sr_rm)
+
+
+plot(model_sr_rm)
+
+
+str(data_rating_HG)
+
+shapiro.test(data_rating_HG$avg_pos_sent_score)
+
+model_sr_hg = lm(data_rating_HG$avg_pos_sent_score~., data = data_rating_HG)
+summary(model_sr_hg)
+
+plot(model_sr_hg)
+hist(data_rating_RM$Average_Positive_Sentimen)
+
+library(stargazer)
+stargazer(model_sr_rm, model_sr_hg, type="text", dep.var.caption = "Average Positive Sentiment Score", dep.var.labels=c("Ratemds","Healthgrades"), out="avg_pos.txt")
+
+
+
+```
+
+```{r}
+
+data_anr_RM = subset(main_data_RM, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "Avg_sent_neg2"))
+
+data_anr_HG = subset(main_data_HG, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "avg_sentneg2"))
+
+str(data_anr_HG)
+str(data_anr_RM)
+
+model_anr_rm = lm(data_anr_RM$Avg_sent_neg2~., data = data_anr_RM)
+
+summary(model_anr_rm)
+
+plot(model_sr_rm)
+
+model_anr_hg = lm(data_anr_HG$avg_sentneg2~., data = data_anr_HG)
+summary(model_anr_hg)
+
+stargazer(model_anr_rm, model_anr_hg, type="text", dep.var.caption = "Average Negative Sentiment Score", dep.var.labels=c("Ratemds","Healthgrades"), out="avg_neg.txt", column.separate = c(4, 4))
+
+
+```
+
+
+```{r}
+
+data_ppr_RM = subset(main_data_RM, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "Positive.Proportion"))
+
+data_ppr_HG = subset(main_data_HG, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "Postive_Proportion"))
+
+str(data_ppr_RM)
+str(data_ppr_HG)
+
+model_ppr_rm = lm(data_ppr_RM$Positive.Proportion~., data = data_ppr_RM)
+
+summary(model_ppr_rm)
+
+plot(model_ppr_rm)
+
+model_ppr_hg = lm(data_ppr_HG$Postive_Proportion~., data = data_ppr_HG)
+summary(model_ppr_hg)
+
+stargazer(model_anr_rm, model_anr_hg, type="text", dep.var.caption = "Average Negative Sentiment Score", dep.var.labels=c("Ratemds","Healthgrades"), out="avg_neg.txt", column.separate = c(4, 4))
+
+```
+
+
+```{r}
+
+data_pnr_RM = subset(main_data_RM, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "Negative.Proportion"))
+
+data_pnr_HG = subset(main_data_HG, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "Negative_Proportion"))
+
+str(data_pnr_RM)
+str(data_pnr_HG)
+
+model_pnr_rm = lm(data_pnr_RM$Negative.Proportion~., data = data_pnr_RM)
+
+summary(model_pnr_rm)
+
+plot(model_pnr_hg)
+
+model_pnr_hg = lm(data_pnr_HG$Negative_Proportion~., data = data_pnr_HG)
+summary(model_pnr_hg)
+
+stargazer(model_ppr_rm, model_ppr_hg, model_pnr_rm, model_pnr_hg, type="text", dep.var.labels=c("Ratemds","Healthgrades", "Ratemds", "Healthgrades"), dep.var.caption = "Proportion of +ve & -ve reviews", out="avg_prp.txt", column.separate = c(4, 4))
+
+```
+
+
+```{r}
+
+
+data_rate_RM = subset(main_data_RM, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "Doctor_ratings"))
+
+data_rate_HG = subset(main_data_HG, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "Rating"))
+
+str(data_rate_RM)
+str(data_rate_HG)
+
+model_rate_rm = lm(data_rate_RM$Doctor_ratings~., data = data_rate_RM)
+
+summary(model_rate_rm)
+
+(model_rate_rm$coefficients)
+
+confint(model_rate_rm)
+
+plot(model_sr_rm)
+
+model_rate_hg = lm(data_rate_HG$Rating~., data = data_rate_HG)
+summary(model_rate_hg)
+
+stargazer(model_rate_rm, model_rate_hg, type="text", dep.var.caption = "Star Rating", dep.var.labels=c("Ratemds","Healthgrades"), out="star_rate.txt", column.separate = c(4, 4))
+
+
+```
+
+
+```{r}
+
+stargazer(model_sr_rm, model_anr_rm, model_ppr_rm, model_pnr_rm, model_rate_rm, type="text", dep.var.caption = "Star Rating", dep.var.labels=c("Avg_+ve_score","Avg_-ve_score", "Prop_+ve_reviews", "Prop_-ve_reviews", "Star_rating"), out="ratemds.txt", column.separate = c(4, 4))
+
+stargazer(model_sr_hg, model_anr_hg, model_ppr_hg, model_pnr_hg, model_rate_hg, type="text", dep.var.caption = "Star Rating", dep.var.labels=c("Avg_+ve_score","Avg_-ve_score", "Prop_+ve_reviews", "Prop_-ve_reviews", "Star_rating"), out="healthgrades.txt", column.separate = c(4, 4))
+
+```
+
+```{r}
+
+entire_data = read.csv("/Users/sujaikarunakaran/Desktop/Assignments/Spring 2020/Ranga/Final Project/Final/RateMds/Ratemds_final copy.csv")
+
+entire_data$Experience = as.factor(entire_data$Experience)
+levels(entire_data$Experience) = list("Below 10"=c(2:10), "11 - 20" = c(11:20), "21 - 30" = c(21:30), "31 - 40" = c(31:40), "41 & above" = c(40:71))
+
+data_aps = subset(entire_data, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "Average_Positive_Sentiment"))
+
+str(data_aps)
+
+model_aps = lm(data_aps$Average_Positive_Sentiment~., data = data_aps)
+summary(model_aps)
+
+data_ans = subset(entire_data, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "Avg_sent_neg2"))
+
+
+model_ans = lm(data_ans$Avg_sent_neg2~., data = data_ans)
+summary(model_ans)
+
+data_ppr = subset(entire_data, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "Positive.Proportion"))
+model_ppr = lm(data_ppr$Positive.Proportion~., data = data_ppr)
+summary(model_ppr)
+
+
+data_pnr = subset(entire_data, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "Negative.Proportion"))
+model_pnr = lm(data_pnr$Negative.Proportion~., data = data_pnr)
+summary(model_pnr)
+
+data_srating = subset(entire_data, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "Doctor_ratings"))
+model_srating = lm(data_srating$Doctor_ratings~., data = data_srating)
+summary(model_srating)
+
+summary(model_srating)
+
+data_os = subset(entire_data, select = c("Doctor_Gender", "Experience", "Words_per_review", "med_expertise_pos", "bedside_manners_pos", "office_staff_pos", "costs_pos", "clinic_envt_pos", "ease_schedule_pos", "waiting_time_pos", "med_expertise_neg", "bedside_manners_neg", "office_staff_neg", "costs_neg", "clinic_envt_neg", "ease_schedule_neg", "waiting_time_neg", "Overall_Sentiment"))
+model_os = lm(data_os$Overall_Sentiment~., data = data_os)
+
+str(entire_data)
+
+library(stargazer)
+stargazer(model_sr_rm, model_anr_rm, model_ppr_rm, model_pnr_rm, model_ws_rm, model_rate_rm, type="text", dep.var.caption = "RateMds", dep.var.labels=c("Avg +ve score","Avg -ve score", "Prop +ve reviews", "Prop -ve reviews", "Overall-Sentiment",  "Star rating"), out="ratemds_chumma.txt", column.separate = c(4, 4), ci.level = 0.9)
+
+library(lm.beta)
+lm.beta(model_sr_rm)
+summary(model_ws_rm)
+lm.beta(model_ws_rm)
+
+stargazer(model_sr_hg, model_anr_hg, model_ppr_hg, model_pnr_hg, model_ws_hg, model_rate_hg, type="text", dep.var.caption = "Healthgrades", dep.var.labels=c("Avg +ve score","Avg -ve score", "Prop +ve reviews", "Prop -ve reviews", "Overall-Sentiment", "Star rating"), out="healthgrades_V3.txt", column.separate = c(4, 4))
+
+summary(model_rate_hg)
+lm.beta(model_rate_hg)
+
+stargazer(model_aps, model_ans, model_ppr, model_pnr, model_os, model_srating, type="text", dep.var.caption = "Both Websites", dep.var.labels=c("Avg +ve score","Avg -ve score", "Prop +ve reviews", "Prop -ve reviews", "Overall-Sentiment", "Star rating"), out="entire_data_V2.txt", column.separate = c(4, 4))
+
+summary(model_srating)
+lm.beta(model_srating) 
+
+
+```
+
