@@ -1,4 +1,4 @@
-# Text_Mining_Online_Physician_Reviews
+# Text Mining Online Physician Reviews
 
 **Problem Statement:** 
 
@@ -11,6 +11,14 @@ Online physician rating websites provide an open-end textual platform for patien
 •To determine the sentiment of all the reviews and identifying the impact of each bucket on the doctor’s rating and their average sentiment scores
 
 •To assess if the Ratings or their review sentiments differ on the nature of their age, gender, number of words used in the reviews, experience, etc.
+
+**Tools**
+
+Most of the project has been developed using Python and R as the programming language of choice and the following libraries:
+
+Selenium, BeautifulSoup - WebScrapping.
+Nltk, TextBlob, Gensim, Spacy, Corextopic - Sentiment Analysis, Topic Modelling
+Pandas, Numpy - Data wrangling.
 
 **Methods:**
 
