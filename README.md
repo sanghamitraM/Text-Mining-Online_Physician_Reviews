@@ -17,7 +17,9 @@ Online physician rating websites provide an open-end textual platform for patien
 Most of the project has been developed using Python and R as the programming language of choice and the following libraries:
 
 Selenium, BeautifulSoup - WebScrapping.
-Nltk, TextBlob, Gensim, Spacy, Corextopic - Sentiment Analysis, Topic Modelling
+
+Nltk, TextBlob, Gensim, Spacy, Corextopic - Sentiment Analysis, Topic Modelling.
+
 Pandas, Numpy - Data wrangling.
 
 **Methods:**
