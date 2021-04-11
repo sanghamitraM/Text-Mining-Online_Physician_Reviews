@@ -11,9 +11,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 
-main_data_HG = read.csv("/Users/sujaikarunakaran/Desktop/Assignments/Spring 2020/Ranga/Final Project/Final/Healthgrades/Healthgrades_final.csv")
+main_data_HG = read.csv("/Users/sangh/Desktop/Assignments/Spring 2020/Ranga/Final Project/Final/Healthgrades/Healthgrades_final.csv")
 
-main_data_RM = read.csv("/Users/sujaikarunakaran/Desktop/Assignments/Spring 2020/Ranga/Final Project/Final/RateMds/Ratemds_final.csv")
+main_data_RM = read.csv("/Users/sangh/Desktop/Assignments/Spring 2020/Ranga/Final Project/Final/RateMds/Ratemds_final.csv")
 
 
 str(main_data_RM)
