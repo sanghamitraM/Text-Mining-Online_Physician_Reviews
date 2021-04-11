@@ -3,6 +3,7 @@
 **Problem Statement:** Online physician rating websites provide an open-end textual platform for patients to evaluate physicians based on their experiences. The purpose of this project is to identify and evaluate key components of physician reviews which have the strongest effect on the overall rating.
 
 **Objectives:**
+
 •To examine the relationship among the ratings give to OBGYNs and their reviews
 
 •To determine the sentiment of all the reviews and identifying the impact of each bucket on the doctor’s rating and their average sentiment scores
