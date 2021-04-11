@@ -4,7 +4,9 @@
 
 **Objectives:**
 •To examine the relationship among the ratings give to OBGYNs and their reviews
+
 •To determine the sentiment of all the reviews and identifying the impact of each bucket on the doctor’s rating and their average sentiment scores
+
 •To assess if the Ratings or their review sentiments differ on the nature of their age, gender, number of words used in the reviews, experience, etc.
 
 **Methods:**
